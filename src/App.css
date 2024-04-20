@@ -1,0 +1,116 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  --Medium-Grey: #828fa3;
+  --Main-Purple: #635fc7;
+  --Light-Grey: #f4f7fd;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+body {
+  background-color: #f4f7fd !important;
+}
+
+/* Drawer Menu */
+
+.drawer-title {
+  display: flex;
+  padding: 30px 0 20px 24px;
+  font-family: "Plus Jakarta Sans";
+  color: var(--Medium-Grey);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 2.4px;
+}
+
+.drawer-hide {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-left: 16px;
+  cursor: pointer;
+  color: var(--Medium-Grey);
+  position: fixed;
+  bottom: 10%;
+  left: 0;
+}
+
+.close {
+  background-color: var(--Main-Purple);
+  width: 56px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 0px 100px 100px 0px;
+  position: fixed;
+}
+
+.dark-light-mode {
+  position: fixed;
+  bottom: 20%;
+  left: 15px;
+  width: 200px;
+  height: 48px;
+  flex-shrink: 0;
+  background-color: var(--Light-Grey);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dark-light-mode img {
+  width: 18.333px;
+  height: 18.333px;
+  flex-shrink: 0;
+}
+
+.list-item span {
+  font-weight: 600 !important;
+}
+
+@media (min-width: 1080px) {
+  .drawer-title,
+  .drawer-button,
+  .drawer-hide {
+  }
+}
