@@ -9,7 +9,6 @@ import '@fontsource/roboto/700.css';
 
 
 function App() {     
-  const [count, setCount] = useState(0)
   const [darkTheme, setDarkTheme] = useState(false);
 
   const handleDarkTheme = () => {
@@ -19,9 +18,7 @@ function App() {
 
 
   useEffect(() => {
-    document.body.style.backgroundColor = darkTheme ? "#2B2C37" : "#FFF)";
-    document.body.style.color = darkTheme ? "828FA3" : "black"; 
-
+    document.body.classList.toggle("dark")
   }, [darkTheme]); 
 
   return (

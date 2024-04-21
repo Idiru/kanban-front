@@ -13,6 +13,9 @@ import IconButton from "@mui/material/IconButton";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
+import Board from "./Board";
+import MainButton from "./MainButton";
+
 
 const drawerWidth = 240;
 
@@ -74,11 +77,10 @@ const data = {
   ],
 };
 
-export default function PersistentDrawerLeft({handleDarkTheme, darkTheme}) {
+export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
-
 
   const handleListItemClick = (index) => {
     setActiveIndex(index);
@@ -92,14 +94,22 @@ export default function PersistentDrawerLeft({handleDarkTheme, darkTheme}) {
     setOpen(false);
   };
 
-
   const label = { inputProps: { "aria-label": "Switch demo" } };
 
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
-        <Toolbar sx={{ backgroundColor: darkTheme ? "var(--Dark-Grey)" : "var(--White)", color: "#000112" }}>
+      <AppBar
+        position="fixed"
+        open={open}
+        sx={{ boxShadow: "none", borderBottom: darkTheme ? "1px solid var(--Borders-dark)" : "1px solid var(--Borders-light)"  }}
+      >
+        <Toolbar
+          sx={{
+            backgroundColor: darkTheme ? "var(--Dark-Grey)" : "var(--White)",
+            color: "#000112",
+          }}
+        >
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -107,9 +117,17 @@ export default function PersistentDrawerLeft({handleDarkTheme, darkTheme}) {
             edge="start"
             sx={{ mr: 2, ...(open && { display: "none" }) }}
           ></IconButton>
-          <Typography sx={{color: darkTheme ? "var(--White)" : "var(--Black)"}} variant="h6" noWrap component="div">
+          <Typography
+            sx={{ color: darkTheme ? "var(--White)" : "var(--Black)" }}
+            variant="h6"
+            noWrap
+            component="div"
+          >
             {data.projects[activeIndex].name}
           </Typography>
+          <div className="toolbar-button">
+          <MainButton text={"+ Add New Column"}/>
+          </div>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -119,10 +137,11 @@ export default function PersistentDrawerLeft({handleDarkTheme, darkTheme}) {
           "& .MuiDrawer-paper": {
             width: drawerWidth,
             boxSizing: "border-box",
+            borderRight: darkTheme ? "1px solid var(--Borders-dark)" : "1px solid var(--Borders-light)",
           },
           ".css-12i7wg6-MuiPaper-root-MuiDrawer-paper": {
-            backgroundColor: darkTheme ? "var(--Dark-Grey)" : "var(--White)"
-          }
+            backgroundColor: darkTheme ? "var(--Dark-Grey)" : "var(--White)",
+          },
         }}
         variant="persistent"
         anchor="left"
@@ -131,10 +150,19 @@ export default function PersistentDrawerLeft({handleDarkTheme, darkTheme}) {
         <DrawerHeader
           sx={{ justifyContent: "center", padding: "16px 40px 0 0" }}
         >
-          <img src={darkTheme ? "../src/assets/logo-dark.svg" : "../src/assets/logo.svg"} alt="logo" />
+          <img
+            src={
+              darkTheme
+                ? "../src/assets/logo-dark.svg"
+                : "../src/assets/logo.svg"
+            }
+            alt="logo"
+          />
         </DrawerHeader>
         <List className="draw-list">
-          <span className="drawer-title">ALL BOARDS ({data.projects.length})</span>
+          <span className="drawer-title">
+            ALL BOARDS ({data.projects.length})
+          </span>
           {data.projects.map((project, index) => (
             <ListItem
               key={project.id}
@@ -147,7 +175,6 @@ export default function PersistentDrawerLeft({handleDarkTheme, darkTheme}) {
                     : "none",
                 borderRadius:
                   activeIndex === index ? "0px 100px 100px 0px" : "0",
-                
               }}
             >
               <ListItemButton
@@ -228,7 +255,15 @@ export default function PersistentDrawerLeft({handleDarkTheme, darkTheme}) {
             </ListItemButton>
           </ListItem>
         </List>
-        <div className="dark-light-mode" style={{backgroundColor: darkTheme ? "var(--Very-Dark-Grey)" : "var(--White)", color: "#000112"}}>
+        <div
+          className="dark-light-mode"
+          style={{
+            backgroundColor: darkTheme
+              ? "var(--Very-Dark-Grey)"
+              : "var(--Light-Grey)",
+            color: "#000112",
+          }}
+        >
           <img className="sun-icon" src="../src/assets/sun.svg" alt="" />
           <Switch
             {...label}
@@ -241,34 +276,35 @@ export default function PersistentDrawerLeft({handleDarkTheme, darkTheme}) {
                 flexShrink: "0",
                 borderRadius: "20px",
               },
-              ".css-byenzh-MuiButtonBase-root-MuiSwitch-switchBase.Mui-checked": {
-                color: "#FFFF",
-
-              },
-              ".css-byenzh-MuiButtonBase-root-MuiSwitch-switchBase.Mui-checked+.MuiSwitch-track": {
-                backgroundColor: "var(--Main-Purple)",
-                opacity: "1"
-              },
+              ".css-byenzh-MuiButtonBase-root-MuiSwitch-switchBase.Mui-checked":
+                {
+                  color: "#FFFF",
+                },
+              ".css-byenzh-MuiButtonBase-root-MuiSwitch-switchBase.Mui-checked+.MuiSwitch-track":
+                {
+                  backgroundColor: "var(--Main-Purple)",
+                  opacity: "1",
+                },
               ".css-jsexje-MuiSwitch-thumb": {
                 height: "14px",
-                width: "14px"
+                width: "14px",
               },
               ".ss-byenzh-MuiButtonBase-root-MuiSwitch-switchBase": {
                 color: "#FFFF",
                 marginTop: "6px",
-                marginLeft: "5px"
-              }, 
+                marginLeft: "5px",
+              },
               "css-byenzh-MuiButtonBase-root-MuiSwitch-switchBase": {
                 marginLeft: "5px",
                 color: "#FFFF",
                 marginTop: "6px",
-              }, 
+              },
 
               ".css-byenzh-MuiButtonBase-root-MuiSwitch-switchBase": {
                 color: "#FFFF",
                 marginTop: "6px",
-                marginLeft: "6px"
-              }
+                marginLeft: "6px",
+              },
             }}
             onClick={handleDarkTheme}
           />
@@ -294,35 +330,7 @@ export default function PersistentDrawerLeft({handleDarkTheme, darkTheme}) {
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
-        <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
-          dolor purus non enim praesent elementum facilisis leo vel. Risus at
-          ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum
-          quisque non tellus. Convallis convallis tellus id interdum velit
-          laoreet id donec ultrices. Odio morbi quis commodo odio aenean sed
-          adipiscing. Amet nisl suscipit adipiscing bibendum est ultricies
-          integer quis. Cursus euismod quis viverra nibh cras. Metus vulputate
-          eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo
-          quis imperdiet massa tincidunt. Cras tincidunt lobortis feugiat
-          vivamus at augue. At augue eget arcu dictum varius duis at consectetur
-          lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa sapien
-          faucibus et molestie ac.
-        </Typography>
-        <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est
-          ullamcorper eget nulla facilisi etiam dignissim diam. Pulvinar
-          elementum integer enim neque volutpat ac tincidunt. Ornare suspendisse
-          sed nisi lacus sed viverra tellus. Purus sit amet volutpat consequat
-          mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis
-          risus sed vulputate odio. Morbi tincidunt ornare massa eget egestas
-          purus viverra accumsan in. In hendrerit gravida rutrum quisque non
-          tellus orci ac. Pellentesque nec nam aliquam sem et tortor. Habitant
-          morbi tristique senectus et. Adipiscing elit duis tristique
-          sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
-          eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
-          posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography>
+        <Board/>
       </Main>
       <div className="drawer-hide close" onClick={handleDrawerOpen}>
         <svg

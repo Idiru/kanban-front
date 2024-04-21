@@ -12,6 +12,9 @@
   --Black: #000112; 
   --White: #FFF;
   --Very-Dark-Grey: #20212C;
+  --Borders-dark: #3E3F4E;
+  --Borders-light: #E4EBFA; 
+
 }
 
 .logo {
@@ -51,7 +54,14 @@
 }
 
 body {
-  background-color: #f4f7fd;
+  background-color: #f4f7fd !important;
+}
+
+/* Toolbar */
+
+.toolbar-button{
+  position: fixed !important; 
+  right: 10px;
 }
 
 /* Drawer Menu */
@@ -98,12 +108,16 @@ body {
   width: 200px;
   height: 48px;
   flex-shrink: 0;
-  background-color: var(--Light-Grey);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
   border-radius: 6px;
+}
+
+.dark {
+  background-color: #20212C !important;
+  color: #828fa3 !important;
 }
 
 .dark-light-mode img {
@@ -118,11 +132,4 @@ body {
 
 .list-item span {
   font-weight: 600 !important;
-}
-
-@media (min-width: 1080px) {
-  .drawer-title,
-  .drawer-button,
-  .drawer-hide {
-  }
 }
