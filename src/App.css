@@ -8,6 +8,10 @@
   --Medium-Grey: #828fa3;
   --Main-Purple: #635fc7;
   --Light-Grey: #f4f7fd;
+  --Dark-Grey: #2B2C37;
+  --Black: #000112; 
+  --White: #FFF;
+  --Very-Dark-Grey: #20212C;
 }
 
 .logo {
@@ -47,7 +51,7 @@
 }
 
 body {
-  background-color: #f4f7fd !important;
+  background-color: #f4f7fd;
 }
 
 /* Drawer Menu */

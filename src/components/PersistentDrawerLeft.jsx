@@ -74,10 +74,11 @@ const data = {
   ],
 };
 
-export default function PersistentDrawerLeft() {
+export default function PersistentDrawerLeft({handleDarkTheme, darkTheme}) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
+
 
   const handleListItemClick = (index) => {
     setActiveIndex(index);
@@ -91,13 +92,14 @@ export default function PersistentDrawerLeft() {
     setOpen(false);
   };
 
+
   const label = { inputProps: { "aria-label": "Switch demo" } };
 
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
-        <Toolbar sx={{ backgroundColor: "#ffff", color: "#000112" }}>
+        <Toolbar sx={{ backgroundColor: darkTheme ? "var(--Dark-Grey)" : "var(--White)", color: "#000112" }}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -105,7 +107,7 @@ export default function PersistentDrawerLeft() {
             edge="start"
             sx={{ mr: 2, ...(open && { display: "none" }) }}
           ></IconButton>
-          <Typography variant="h6" noWrap component="div">
+          <Typography sx={{color: darkTheme ? "var(--White)" : "var(--Black)"}} variant="h6" noWrap component="div">
             {data.projects[activeIndex].name}
           </Typography>
         </Toolbar>
@@ -118,6 +120,9 @@ export default function PersistentDrawerLeft() {
             width: drawerWidth,
             boxSizing: "border-box",
           },
+          ".css-12i7wg6-MuiPaper-root-MuiDrawer-paper": {
+            backgroundColor: darkTheme ? "var(--Dark-Grey)" : "var(--White)"
+          }
         }}
         variant="persistent"
         anchor="left"
@@ -126,7 +131,7 @@ export default function PersistentDrawerLeft() {
         <DrawerHeader
           sx={{ justifyContent: "center", padding: "16px 40px 0 0" }}
         >
-          <img src="../src/assets/logo.svg" alt="logo" />
+          <img src={darkTheme ? "../src/assets/logo-dark.svg" : "../src/assets/logo.svg"} alt="logo" />
         </DrawerHeader>
         <List className="draw-list">
           <span className="drawer-title">ALL BOARDS ({data.projects.length})</span>
@@ -142,6 +147,7 @@ export default function PersistentDrawerLeft() {
                     : "none",
                 borderRadius:
                   activeIndex === index ? "0px 100px 100px 0px" : "0",
+                
               }}
             >
               <ListItemButton
@@ -222,11 +228,10 @@ export default function PersistentDrawerLeft() {
             </ListItemButton>
           </ListItem>
         </List>
-        <div className="dark-light-mode">
+        <div className="dark-light-mode" style={{backgroundColor: darkTheme ? "var(--Very-Dark-Grey)" : "var(--White)", color: "#000112"}}>
           <img className="sun-icon" src="../src/assets/sun.svg" alt="" />
           <Switch
             {...label}
-            defaultChecked
             sx={{
               ".css-1yjjitx-MuiSwitch-track": {
                 backgroundColor: "var(--Main-Purple)",
@@ -265,6 +270,7 @@ export default function PersistentDrawerLeft() {
                 marginLeft: "6px"
               }
             }}
+            onClick={handleDarkTheme}
           />
           <img className="moon-icon" src="../src/assets/moon.svg" alt="" />
         </div>
