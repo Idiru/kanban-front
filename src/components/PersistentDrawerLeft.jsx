@@ -10,26 +10,9 @@ import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import Switch from "@mui/material/Switch";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
-import {
-  color,
-  display,
-  fontFamily,
-  fontSize,
-  fontStyle,
-  fontWeight,
-  letterSpacing,
-  lineHeight,
-  padding,
-} from "@mui/system";
 
 const drawerWidth = 240;
 
@@ -146,7 +129,7 @@ export default function PersistentDrawerLeft() {
           <img src="../src/assets/logo.svg" alt="logo" />
         </DrawerHeader>
         <List className="draw-list">
-          <span className="drawer-title">ALL BOARDS (3)</span>
+          <span className="drawer-title">ALL BOARDS ({data.projects.length})</span>
           {data.projects.map((project, index) => (
             <ListItem
               key={project.id}
@@ -240,9 +223,50 @@ export default function PersistentDrawerLeft() {
           </ListItem>
         </List>
         <div className="dark-light-mode">
-          <img src="../src/assets/sun.svg" alt="" />
-          <Switch {...label} defaultChecked />
-          <img src="../src/assets/moon.svg" alt="" />
+          <img className="sun-icon" src="../src/assets/sun.svg" alt="" />
+          <Switch
+            {...label}
+            defaultChecked
+            sx={{
+              ".css-1yjjitx-MuiSwitch-track": {
+                backgroundColor: "var(--Main-Purple)",
+                opacity: "1",
+                width: "40px",
+                height: "20px",
+                flexShrink: "0",
+                borderRadius: "20px",
+              },
+              ".css-byenzh-MuiButtonBase-root-MuiSwitch-switchBase.Mui-checked": {
+                color: "#FFFF",
+
+              },
+              ".css-byenzh-MuiButtonBase-root-MuiSwitch-switchBase.Mui-checked+.MuiSwitch-track": {
+                backgroundColor: "var(--Main-Purple)",
+                opacity: "1"
+              },
+              ".css-jsexje-MuiSwitch-thumb": {
+                height: "14px",
+                width: "14px"
+              },
+              ".ss-byenzh-MuiButtonBase-root-MuiSwitch-switchBase": {
+                color: "#FFFF",
+                marginTop: "6px",
+                marginLeft: "5px"
+              }, 
+              "css-byenzh-MuiButtonBase-root-MuiSwitch-switchBase": {
+                marginLeft: "5px",
+                color: "#FFFF",
+                marginTop: "6px",
+              }, 
+
+              ".css-byenzh-MuiButtonBase-root-MuiSwitch-switchBase": {
+                color: "#FFFF",
+                marginTop: "6px",
+                marginLeft: "6px"
+              }
+            }}
+          />
+          <img className="moon-icon" src="../src/assets/moon.svg" alt="" />
         </div>
         <div onClick={handleDrawerClose} className="drawer-hide">
           <svg
