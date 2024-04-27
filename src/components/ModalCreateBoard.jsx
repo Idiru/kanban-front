@@ -8,7 +8,7 @@ import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
-import TextField from '@mui/material/TextField';
+import TextField from './TextField';
 import { useModal } from './ModalContext';
 import MainButton from "./MainButton";
 
@@ -47,7 +47,7 @@ export default function CustomizedDialogs() {
         Add a new board
         </DialogTitle>
         <p className="label">Board name</p>
-        <TextField id="outlined-basic" variant="outlined" />
+        <TextField/>
         <IconButton
           aria-label="close"
           onClick={handleClose}
