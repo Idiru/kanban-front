@@ -15,7 +15,8 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Board from "./Board";
 import MainButton from "./MainButton";
-
+import Modal from "./ModalCreateBoard";
+import { useModal } from "./ModalContext";
 
 const drawerWidth = 240;
 
@@ -82,6 +83,8 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
   const [open, setOpen] = React.useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
 
+  const { handleOpen } = useModal();
+
   const handleListItemClick = (index) => {
     setActiveIndex(index);
   };
@@ -102,7 +105,12 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
       <AppBar
         position="fixed"
         open={open}
-        sx={{ boxShadow: "none", borderBottom: darkTheme ? "1px solid var(--Borders-dark)" : "1px solid var(--Borders-light)"  }}
+        sx={{
+          boxShadow: "none",
+          borderBottom: darkTheme
+            ? "1px solid var(--Borders-dark)"
+            : "1px solid var(--Borders-light)",
+        }}
       >
         <Toolbar
           sx={{
@@ -126,7 +134,7 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
             {data.projects[activeIndex].name}
           </Typography>
           <div className="toolbar-button">
-          <MainButton text={"+ Add New Column"}/>
+            <MainButton text={"+ Add New Column"} />
           </div>
         </Toolbar>
       </AppBar>
@@ -137,7 +145,9 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
           "& .MuiDrawer-paper": {
             width: drawerWidth,
             boxSizing: "border-box",
-            borderRight: darkTheme ? "1px solid var(--Borders-dark)" : "1px solid var(--Borders-light)",
+            borderRight: darkTheme
+              ? "1px solid var(--Borders-dark)"
+              : "1px solid var(--Borders-light)",
           },
           ".css-12i7wg6-MuiPaper-root-MuiDrawer-paper": {
             backgroundColor: darkTheme ? "var(--Dark-Grey)" : "var(--White)",
@@ -240,6 +250,7 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
                 </g>
               </svg>
               <ListItemText
+                onClick={handleOpen}
                 primary="+ Create a New Board"
                 className="list-item"
                 sx={{
@@ -330,7 +341,7 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
-        <Board/>
+        <Board />
       </Main>
       <div className="drawer-hide close" onClick={handleDrawerOpen}>
         <svg
@@ -348,6 +359,7 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
           />
         </svg>
       </div>
+      <Modal modalTitle="test" modalText="Test text" />
     </Box>
   );
 }

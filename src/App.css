@@ -8,13 +8,12 @@
   --Medium-Grey: #828fa3;
   --Main-Purple: #635fc7;
   --Light-Grey: #f4f7fd;
-  --Dark-Grey: #2B2C37;
-  --Black: #000112; 
-  --White: #FFF;
-  --Very-Dark-Grey: #20212C;
-  --Borders-dark: #3E3F4E;
-  --Borders-light: #E4EBFA; 
-
+  --Dark-Grey: #2b2c37;
+  --Black: #000112;
+  --White: #fff;
+  --Very-Dark-Grey: #20212c;
+  --Borders-dark: #3e3f4e;
+  --Borders-light: #e4ebfa;
 }
 
 .logo {
@@ -59,8 +58,8 @@ body {
 
 /* Toolbar */
 
-.toolbar-button{
-  position: fixed !important; 
+.toolbar-button {
+  position: fixed !important;
   right: 10px;
 }
 
@@ -98,7 +97,6 @@ body {
   border-radius: 0px 100px 100px 0px;
   position: fixed;
   left: 0;
-
 }
 
 .dark-light-mode {
@@ -116,7 +114,7 @@ body {
 }
 
 .dark {
-  background-color: #20212C !important;
+  background-color: #20212c !important;
   color: #828fa3 !important;
 }
 
@@ -132,4 +130,17 @@ body {
 
 .list-item span {
   font-weight: 600 !important;
+}
+
+/* Modal */
+
+/* Modal Create board */
+
+.label {
+  color: var(--Medium-Grey, #828fa3);
+  font-family: "Plus Jakarta Sans";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
 }
