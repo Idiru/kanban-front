@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import PersistentDrawerLeft from "./components/PersistentDrawerLeft";
-import { ModalProvider } from './components//ModalContext';
-
+import { ModalProvider } from "./components//ModalContext";
+import { KanbanProvider } from "./components//KanbanContext";
 
 import "./App.css";
 import "@fontsource/roboto/300.css";
@@ -23,12 +23,14 @@ function App() {
 
   return (
     <ModalProvider>
-      <div className="container">
-        <PersistentDrawerLeft
-          darkTheme={darkTheme}
-          handleDarkTheme={handleDarkTheme}
-        />
-      </div>
+      <KanbanProvider>
+        <div className="container">
+          <PersistentDrawerLeft
+            darkTheme={darkTheme}
+            handleDarkTheme={handleDarkTheme}
+          />
+        </div>
+      </KanbanProvider>
     </ModalProvider>
   );
 }

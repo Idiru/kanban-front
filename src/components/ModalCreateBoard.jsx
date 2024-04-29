@@ -1,5 +1,4 @@
-import * as React from "react";
-import Button from "@mui/material/Button";
+import React, { useState } from 'react';
 import { styled } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -8,10 +7,10 @@ import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
-import TextField from './TextField';
-import { useModal } from './ModalContext';
+import TextField from '@mui/material/TextField';
+import { useModal } from "./ModalContext";
 import MainButton from "./MainButton";
-
+import { useKanban } from "./KanbanContext";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -23,8 +22,10 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 export default function CustomizedDialogs() {
-
-  const { open, modalTitle, modalText, TextFieldLabel,  handleClose, handleOpen } = useModal();
+  const { open, modalText, handleClose } = useModal();
+  const { addBoard } = useKanban();
+  const [boardName, setBoardName] = useState('');
+ 
 
 
   return (
@@ -39,15 +40,26 @@ export default function CustomizedDialogs() {
             maxWidth: "500px",
             width: "50%",
             padding: "32px",
-            borderRadius: "6px"
+            borderRadius: "6px",
           },
         }}
       >
-        <DialogTitle sx={{ m: 0, p: 2, padding: "0"}} id="customized-dialog-title">
-        Add a new board
+        <DialogTitle
+          sx={{ m: 0, p: 2, padding: "0" }}
+          id="customized-dialog-title"
+        >
+          Create a new board
         </DialogTitle>
         <p className="label">Board name</p>
-        <TextField/>
+        <TextField
+          onChange={(e) => setBoardName(e.target.value)}
+          id="outlined-basic"
+          variant="outlined"
+          sx={{
+            ".css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+              { borderColor: "#635fc7" },
+          }}
+        />{" "}
         <IconButton
           aria-label="close"
           onClick={handleClose}
@@ -63,8 +75,13 @@ export default function CustomizedDialogs() {
         <DialogContent>
           <Typography gutterBottom>{modalText}</Typography>
         </DialogContent>
-        <DialogActions>
-        <MainButton/>
+        <DialogActions sx={{ justifyContent: "center" }}>
+          <MainButton
+            event={() =>
+              addBoard({ id: "newBoard", name: boardName, columns: [] })
+            }
+            text="Create"
+          />
         </DialogActions>
       </BootstrapDialog>
     </React.Fragment>

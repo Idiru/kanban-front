@@ -4,9 +4,10 @@ export default function mainButton(props) {
   return (
     <div>
       <Button
+        onClick={props.event}
         variant="contained"
         sx={{
-          backgroundColor: "var(--Main-Purple)",
+          backgroundColor: "#635fc7",
           width: "174px",
           height: "48px",
           flexShrink: "0",
@@ -14,7 +15,7 @@ export default function mainButton(props) {
           border: "none",
           boxShadow: "none",
           '&:hover': {
-          bgcolor: "var(--Main-Purple)",
+          bgcolor: "#635fc7",
           opacity: "0.5",
           boxShadow: "none",
           border: "none",

@@ -17,6 +17,8 @@ import Board from "./Board";
 import MainButton from "./MainButton";
 import Modal from "./ModalCreateBoard";
 import { useModal } from "./ModalContext";
+import { useKanban } from './KanbanContext';
+
 
 const drawerWidth = 240;
 
@@ -84,6 +86,12 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const { handleOpen } = useModal();
+  const { boards } = useKanban();
+
+  console.log(boards); 
+
+
+  
 
   const handleListItemClick = (index) => {
     setActiveIndex(index);
@@ -131,7 +139,7 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
             noWrap
             component="div"
           >
-            {data.projects[activeIndex].name}
+            {boards[activeIndex].name}
           </Typography>
           <div className="toolbar-button">
             <MainButton text={"+ Add New Column"} />
@@ -171,11 +179,11 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
         </DrawerHeader>
         <List className="draw-list">
           <span className="drawer-title">
-            ALL BOARDS ({data.projects.length})
+            ALL BOARDS ({boards.length})
           </span>
-          {data.projects.map((project, index) => (
+          {boards.map((board, index) => (
             <ListItem
-              key={project.id}
+              key={board.id}
               disablePadding
               sx={{
                 width: activeIndex === index ? "90%" : "100%",
@@ -214,7 +222,7 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
                 </svg>
                 <ListItemText
                   className="list-item"
-                  primary={project.name}
+                  primary={board.name}
                   sx={{
                     fontFeatureSettings: `"clig" off, "liga" off`,
                     fontFamily: "Plus Jakarta Sans",
@@ -230,7 +238,7 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
               </ListItemButton>
             </ListItem>
           ))}
-          <ListItem disablePadding>
+          <ListItem disablePadding onClick={handleOpen}>
             <ListItemButton className="drawer-button">
               <svg
                 width="16"
@@ -250,8 +258,7 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
                 </g>
               </svg>
               <ListItemText
-                onClick={handleOpen}
-                primary="+ Create a New Board"
+                primary="+ Create a new board"
                 className="list-item"
                 sx={{
                   color: "var(--Medium-Grey, #828fa3)",
