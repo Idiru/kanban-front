@@ -16,8 +16,9 @@ import ListItemText from "@mui/material/ListItemText";
 import Board from "./Board";
 import MainButton from "./MainButton";
 import Modal from "./ModalCreateBoard";
-import { useModal } from "./ModalContext";
 import { useKanban } from './KanbanContext';
+import { openModal } from '../redux/modalSlice'; 
+import { useSelector, useDispatch } from 'react-redux';
 
 
 const drawerWidth = 240;
@@ -85,12 +86,12 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
   const [open, setOpen] = React.useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const { handleOpen } = useModal();
   const { boards } = useKanban();
 
   console.log(boards); 
 
-
+  const isModalOpen = useSelector(state => state.modal.open);
+  const dispatch = useDispatch();
   
 
   const handleListItemClick = (index) => {
@@ -238,7 +239,7 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
               </ListItemButton>
             </ListItem>
           ))}
-          <ListItem disablePadding onClick={handleOpen}>
+          <ListItem disablePadding onClick={() => dispatch(openModal())}>
             <ListItemButton className="drawer-button">
               <svg
                 width="16"
@@ -366,7 +367,7 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
           />
         </svg>
       </div>
-      <Modal modalTitle="test" modalText="Test text" />
+      <Modal open={isModalOpen}  modalTitle="test" modalText="Test text" />
     </Box>
   );
 }

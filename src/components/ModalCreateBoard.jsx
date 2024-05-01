@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { styled } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -6,11 +6,13 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import Typography from "@mui/material/Typography";
-import TextField from '@mui/material/TextField';
-import { useModal } from "./ModalContext";
+import CustomTextField from "./CustomTextField";
 import MainButton from "./MainButton";
 import { useKanban } from "./KanbanContext";
+import { closeModal } from "../redux/modalSlice";
+import {resetForm} from '../redux/formSlice';
+import { useSelector, useDispatch } from "react-redux";
+
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -22,16 +24,25 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 export default function CustomizedDialogs() {
-  const { open, modalText, handleClose } = useModal();
-  const { addBoard } = useKanban();
-  const [boardName, setBoardName] = useState('');
- 
+  const { addBoard } = useKanban();  
+  const open = useSelector((state) => state.modal.open);
+  const boardName = useSelector((state) => state.form.boardName); // Récupérer boardName depuis Redux
 
+  const dispatch = useDispatch();
+
+  const handleCreateAndClose = () => {
+    if (boardName) {
+      dispatch(closeModal());
+      dispatch(resetForm()); 
+      addBoard({ id: "newBoard", name: boardName, columns: [] });
+      
+    }
+  };
 
   return (
     <React.Fragment>
       <BootstrapDialog
-        onClose={handleClose}
+        onClose={() => dispatch(closeModal())}
         aria-labelledby="customized-dialog-title"
         open={open}
         sx={{
@@ -51,18 +62,10 @@ export default function CustomizedDialogs() {
           Create a new board
         </DialogTitle>
         <p className="label">Board name</p>
-        <TextField
-          onChange={(e) => setBoardName(e.target.value)}
-          id="outlined-basic"
-          variant="outlined"
-          sx={{
-            ".css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-              { borderColor: "#635fc7" },
-          }}
-        />{" "}
+        <CustomTextField/>
         <IconButton
           aria-label="close"
-          onClick={handleClose}
+          onClick={() => dispatch(closeModal())}
           sx={{
             position: "absolute",
             right: 8,
@@ -73,15 +76,9 @@ export default function CustomizedDialogs() {
           <CloseIcon />
         </IconButton>
         <DialogContent>
-          <Typography gutterBottom>{modalText}</Typography>
         </DialogContent>
         <DialogActions sx={{ justifyContent: "center" }}>
-          <MainButton
-            event={() =>
-              addBoard({ id: "newBoard", name: boardName, columns: [] })
-            }
-            text="Create"
-          />
+          <MainButton onClick={handleCreateAndClose} text="Create" />
         </DialogActions>
       </BootstrapDialog>
     </React.Fragment>

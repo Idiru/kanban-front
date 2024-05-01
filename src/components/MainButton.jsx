@@ -1,10 +1,11 @@
 import Button from "@mui/material/Button";
 
+
 export default function mainButton(props) {
   return (
     <div>
       <Button
-        onClick={props.event}
+        onClick={props.onClick}
         variant="contained"
         sx={{
           backgroundColor: "#635fc7",
