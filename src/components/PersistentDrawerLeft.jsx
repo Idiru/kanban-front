@@ -125,10 +125,16 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
   //Toolbar arrow
   const [isUp, setIsUp] = useState(false);
   const svgRef = useRef(null);
+  const firstMount = useRef(true);
+
 
   useEffect(() => {
-    if (svgRef.current) {
-      svgRef.current.style.transition = "transform 0.3s ease";
+    if (firstMount.current) {
+      // Appliquer immédiatement la rotation initiale sans transition
+      svgRef.current.style.transform = `rotate(${isUp ? 0 : 180}deg)`;
+      firstMount.current = false;  // Marquer que le premier montage est passé
+    } else {
+      // Appliquer la transition après le premier montage
       svgRef.current.style.transform = `rotate(${isUp ? 0 : 180}deg)`;
     }
   }, [isUp]);
@@ -164,13 +170,6 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
               color: "#000112",
             }}
           >
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleDrawerOpen}
-              edge="start"
-              sx={{ mr: 2, ...(open && { display: "none" }) }}
-            ></IconButton>
             <Typography
               sx={{ color: darkTheme ? "var(--White)" : "var(--Black)" }}
               variant="h6"
@@ -437,13 +436,6 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
             alt="logo"
             onClick={() => refresh()}
           />
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{ mr: 2, ...(open && { display: "none" }) }}
-          ></IconButton>
           <Typography
             sx={{
               color: darkTheme ? "var(--White)" : "var(--Black)",
@@ -464,6 +456,10 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
             viewBox="0 0 9 7"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
+            style={{
+        cursor: 'pointer',
+        transition: firstMount.current ? 'none' : 'transform 0.3s ease' // Applique la transition uniquement après le premier montage
+      }}
           >
             <path
               d="M1 1L5 5L9 1"
@@ -475,6 +471,7 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
             <MainButton text={"+"} />
           </div>
         </Toolbar>
+        <Board />
       </AppBar>
     </div>
   );

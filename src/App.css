@@ -1,5 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
 
+
+* {
+  transition: 0.3s !important;
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -18,6 +23,10 @@
 
 .logo {
   cursor: pointer;
+}
+
+body {
+  background-color: #f4f7fd !important;
 }
 
 /* Classic components */
@@ -49,7 +58,6 @@
   position: fixed;
   right: 10px;
   top: 10px;
-
 }
 
 .toolbar-button.mobile button {
@@ -154,6 +162,16 @@
   font-weight: 600 !important;
 }
 
+.css-1k455el {
+  display: none !important;
+}
+
+.css-ttn1xo, .css-yfo96e {
+  position: fixed;
+  left: 18%;
+  top: 10%;
+}
+
 /* Modal */
 
 /* Modal Create board */
@@ -165,4 +183,71 @@
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+}
+
+/* Board */
+
+.empty-board {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #f4f7fd;
+  color: var(--Medium-Grey, #828fa3);
+}
+
+.board-container {
+  display: flex;
+  gap: 24px;
+}
+
+.column-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.column-title {
+  color: var(--Medium-Grey, #828fa3);
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: "Plus Jakarta Sans";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 2.4px;
+}
+
+.ticket {
+  width: 280px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: var(--White, #fff);
+  box-shadow: 0px 4px 6px 0px rgba(54, 78, 126, 0.1);
+  padding: 23px 16px;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.ticket-title {
+  color: var(--Black, #000112);
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: "Plus Jakarta Sans";
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  margin: 0;
+  padding-bottom: 8px;
+}
+
+.ticket-subtasks {
+  color: var(--Medium-Grey, #828fa3);
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: "Plus Jakarta Sans";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  margin: 0 ;
 }
