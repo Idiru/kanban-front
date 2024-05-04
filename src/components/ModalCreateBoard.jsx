@@ -10,7 +10,7 @@ import CustomTextField from "./CustomTextField";
 import MainButton from "./MainButton";
 import { useKanban } from "./KanbanContext";
 import { closeModal } from "../redux/modalSlice";
-import {resetForm} from '../redux/formSlice';
+import { resetForm } from '../redux/formSlice';
 import { useSelector, useDispatch } from "react-redux";
 
 
@@ -26,7 +26,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 export default function CustomizedDialogs() {
   const { addBoard } = useKanban();  
   const open = useSelector((state) => state.modal.open);
-  const boardName = useSelector((state) => state.form.boardName); // Récupérer boardName depuis Redux
+  const boardName = useSelector((state) => state.form.boardName);
 
   const dispatch = useDispatch();
 
@@ -78,7 +78,7 @@ export default function CustomizedDialogs() {
         <DialogContent>
         </DialogContent>
         <DialogActions sx={{ justifyContent: "center" }}>
-          <MainButton onClick={handleCreateAndClose} text="Create" />
+          <MainButton state={boardName ? "" : "disable"} onClick={handleCreateAndClose} text="Create" />
         </DialogActions>
       </BootstrapDialog>
     </React.Fragment>

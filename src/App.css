@@ -17,50 +17,72 @@
 }
 
 .logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  cursor: pointer;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Classic components */
+
+/* Primary button */
+
+.primary-button {
+  background-color: var(--Main-Purple);
+  flex-shrink: 0;
+  border-radius: 24px;
+  border: none;
+  box-shadow: none;
+  color: var(--White);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.primary-button:hover {
+  opacity: 0.5;
 }
 
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
-
-body {
-  background-color: #f4f7fd !important;
+.primary-button:focus {
+  outline: none;
 }
 
 /* Toolbar */
 
 .toolbar-button {
   position: fixed !important;
+  height: 48px;
+  position: fixed;
   right: 10px;
+  top: 10px;
+
+}
+
+.toolbar-button.mobile button {
+  font-size: 30px;
+  padding: 0 20px;
+  flex-shrink: 0;
+}
+
+/* Keyframes pour l'animation de bas en haut */
+@keyframes moveUp {
+  from {
+    d: path("M1 6L5 2L9 6");
+  }
+  to {
+    d: path("M1 1L5 5L9 1");
+  }
+}
+/* État animé de la flèche */
+.arrow-projects.up {
+  animation: moveUp 0.3s forwards;
+}
+/* Keyframes pour l'animation de haut en bas */
+@keyframes moveDown {
+  from {
+    d: path("M1 1L5 5L9 1");
+  }
+  to {
+    d: path("M1 6L5 2L9 6");
+  }
+}
+/* État animé de la flèche */
+.arrow-projects.down {
+  animation: moveDown 0.3s forwards;
 }
 
 /* Drawer Menu */
