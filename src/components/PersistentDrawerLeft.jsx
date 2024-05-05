@@ -21,6 +21,7 @@ import { openModal } from "../redux/modalSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { setScreenSize } from "../redux/screenSizeSlice";
 
+
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -127,12 +128,11 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
   const svgRef = useRef(null);
   const firstMount = useRef(true);
 
-
   useEffect(() => {
     if (firstMount.current) {
       // Appliquer immédiatement la rotation initiale sans transition
       svgRef.current.style.transform = `rotate(${isUp ? 0 : 180}deg)`;
-      firstMount.current = false;  // Marquer que le premier montage est passé
+      firstMount.current = false; // Marquer que le premier montage est passé
     } else {
       // Appliquer la transition après le premier montage
       svgRef.current.style.transform = `rotate(${isUp ? 0 : 180}deg)`;
@@ -389,7 +389,7 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
         </Drawer>
         <Main open={open}>
           <DrawerHeader />
-          <Board />
+            <Board />
         </Main>
         <div className="drawer-hide close" onClick={handleDrawerOpen}>
           <svg
@@ -457,15 +457,11 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             style={{
-        cursor: 'pointer',
-        transition: firstMount.current ? 'none' : 'transform 0.3s ease' // Applique la transition uniquement après le premier montage
-      }}
+              cursor: "pointer",
+              transition: firstMount.current ? "none" : "transform 0.3s ease", // Applique la transition uniquement après le premier montage
+            }}
           >
-            <path
-              d="M1 1L5 5L9 1"
-              stroke="#635FC7"
-              stroke-width="2"
-            />
+            <path d="M1 1L5 5L9 1" stroke="#635FC7" stroke-width="2" />
           </svg>
           <div className="toolbar-button mobile">
             <MainButton text={"+"} />

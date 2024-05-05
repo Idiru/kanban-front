@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import PersistentDrawerLeft from "./components/PersistentDrawerLeft";
 import { ModalProvider } from "./components//ModalContext";
 import { KanbanProvider } from "./components//KanbanContext";
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 
 import "./App.css";
@@ -23,6 +25,7 @@ function App() {
   }, [darkTheme]);
 
   return (
+    <DndProvider backend={HTML5Backend}>
     <ModalProvider>
       <KanbanProvider>
         <div className="container">
@@ -33,6 +36,7 @@ function App() {
         </div>
       </KanbanProvider>
     </ModalProvider>
+    </DndProvider>
   );
 }
 

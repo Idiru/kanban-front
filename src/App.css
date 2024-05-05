@@ -1,6 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
 
-
 * {
   transition: 0.3s !important;
 }
@@ -166,7 +165,8 @@ body {
   display: none !important;
 }
 
-.css-ttn1xo, .css-yfo96e {
+.css-ttn1xo,
+.css-yfo96e {
   position: fixed;
   left: 18%;
   top: 10%;
@@ -194,17 +194,20 @@ body {
   justify-content: center;
   background-color: #f4f7fd;
   color: var(--Medium-Grey, #828fa3);
+  user-select: none;
 }
 
 .board-container {
   display: flex;
   gap: 24px;
+  user-select: none;
 }
 
 .column-label {
   display: flex;
   align-items: center;
   gap: 12px;
+  padding-bottom: 24px;
 }
 
 .column-title {
@@ -227,6 +230,12 @@ body {
   padding: 23px 16px;
   text-align: left;
   margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.ticket:hover .ticket-title {
+  color: var(--Main-Purple, #635FC7);
+
 }
 
 .ticket-title {
@@ -249,5 +258,36 @@ body {
   font-style: normal;
   font-weight: 700;
   line-height: normal;
-  margin: 0 ;
+  margin: 0;
+}
+
+.container-add-new-column {
+  width: 280px;
+  height: 600px;
+  border-radius: 6px;
+  background: linear-gradient(
+    180deg,
+    #e9effa 0%,
+    rgba(233, 239, 250, 0.5) 100%
+  );
+  margin-top: 39px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.container-add-new-column p {
+  color: var(--Medium-Grey, #828fa3);
+  text-align: center;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: "Plus Jakarta Sans";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.container-add-new-column p:hover {
+  color: var(--Main-Purple, #635FC7);
+  cursor: pointer;
 }
