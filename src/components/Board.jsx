@@ -11,14 +11,18 @@ const initialBoard = [
       {
         title: "Build UI for onboarding flow",
         ticketId: 1,
+        indexColumn: 0,
       },
       {
         title: "Build UI for search",
         ticketId: 2,
+        indexColumn: 1,
       },
       {
         title: "Create template structures",
         ticketId: 3,
+        indexColumn: 2,
+
       },
     ],
   },
@@ -30,22 +34,32 @@ const initialBoard = [
       {
         title: "Design settings and search pages",
         ticketId: 4,
+        indexColumn: 0,
+
       },
       {
         title: "Add account management endpoints",
         ticketId: 5,
+        indexColumn: 1,
+
       },
       {
         title: "Design onboarding flow",
         ticketId: 6,
+        indexColumn: 2,
+
       },
       {
         title: "Add search enpoints",
         ticketId: 7,
+        indexColumn: 3,
+
       },
       {
         title: "Add authentication endpoints",
         ticketId: 8,
+        indexColumn: 4,
+
       },
     ],
   },
@@ -54,22 +68,22 @@ const initialBoard = [
 function Board() {
   const [columns, setColumns] = useState(initialBoard);
 
-  const handleDropTicket = (ticketId, toColumnId) => {
-    let newColumns = columns.map((column) => ({
+  const handleDropTicket = (ticketId, toColumnId) => { //Get the ticket id dropped and its current column
+    let newColumns = columns.map((column) => ({  //Creation of a new array based on the inital column array to a projection of the new column 
       ...column,
-      tickets: column.tickets.filter((ticket) => ticket.ticketId !== ticketId),
+      tickets: column.tickets.filter((ticket) => ticket.ticketId !== ticketId), //Upate the column without this ticket by filterting
     }));
 
     const ticket = columns
-      .flatMap((column) => column.tickets)
+      .flatMap((column) => column.tickets) //Allow us to get only an array with all tickets, to manage the selection of the ticket without taking into the column
       .find((ticket) => ticket.ticketId === ticketId);
 
     setColumns(
       newColumns.map((column) => {
-        if (column.columnId === toColumnId) {
+        if (column.columnId === toColumnId) { //We compare the inital column array and the newColumns array to change the columns if needed
           return { ...column, tickets: [...column.tickets, ticket] };
         }
-        return column;
+        return column; //We return an array with the new positions 
       })
     );
   };
@@ -101,16 +115,16 @@ function Board() {
 }
 
 function Column({ column, onDropTicket }) {
-  const [, dropRef] = useDrop({
-    accept: "TICKET",
-    drop: (item, monitor) => {
-      if (monitor.isOver()) {
-        onDropTicket(item.id, column.columnId);
+  const [, dropRef] = useDrop({ //Hook to allow to drop
+    accept: "TICKET", //The type of element accepted to drop 
+    drop: (item, monitor) => { //In case of a drop
+      if (monitor.isOver()) { //If the ticket is over the column
+        onDropTicket(item.id, column.columnId); //Launch the function handleDropTicket to redefine the column of the ticket 
       }
     },
   });
 
-  return (
+  return (//dropRef link the column to the drop 
     <div ref={dropRef} className="column-container">
       <div className="column-label">
         <svg
@@ -135,12 +149,12 @@ function Column({ column, onDropTicket }) {
 
 function Ticket({ ticket, index, onMoveTicket, columnId }) {
   const [{ isDragging }, dragRef, preview] = useDrag({
-    type: "TICKET",
-    item: () => {
-      return { id: ticket.ticketId, index, columnId };
+    type: "TICKET", //Define the type of the element dragable (useful above on the drog side)
+    item: () => { //Return the data of the object that we can drag 
+      return { id: ticket.ticketId, indexColumn: ticket.indexColumn, columnId };
     },
     collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
+      isDragging: !!monitor.isDragging(), //Boolean to know if the element is currently draged or not, allow us to impact some css effects
     }),
   });
 
