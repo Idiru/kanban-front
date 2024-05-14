@@ -4,6 +4,8 @@ import { ModalProvider } from "./components//ModalContext";
 import { KanbanProvider } from "./components//KanbanContext";
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import Board from './components/Board'; // Assurez-vous que vos composants sont bien importés
+
 
 
 import "./App.css";

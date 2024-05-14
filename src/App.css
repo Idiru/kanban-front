@@ -203,6 +203,18 @@ body {
   user-select: none;
 }
 
+.column-container {
+  transition: background-color 0.3s ease;
+  padding: 20px;
+  border-radius: 6px;
+
+
+}
+
+.column-container.drag-over {
+  background-color: #625fc711;
+}
+
 .column-label {
   display: flex;
   align-items: center;
@@ -231,6 +243,22 @@ body {
   text-align: left;
   margin-bottom: 20px;
   cursor: pointer;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+
+}
+
+.ticket.dragging {
+  opacity: 0.5;
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: 0.3s ease;
+  
+
+}
+
+.ticket.hovering {
+  border: 2px dashed #ccc;
+  
 }
 
 .ticket:hover .ticket-title {

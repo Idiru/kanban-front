@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { DndProvider, useDrag, useDrop } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import React, { useState, useRef } from "react";
+import { useDrag, useDrop } from "react-dnd";
 
 const initialBoard = [
   {
@@ -22,7 +21,6 @@ const initialBoard = [
         title: "Create template structures",
         ticketId: 3,
         indexColumn: 2,
-
       },
     ],
   },
@@ -35,31 +33,26 @@ const initialBoard = [
         title: "Design settings and search pages",
         ticketId: 4,
         indexColumn: 0,
-
       },
       {
         title: "Add account management endpoints",
         ticketId: 5,
         indexColumn: 1,
-
       },
       {
         title: "Design onboarding flow",
         ticketId: 6,
         indexColumn: 2,
-
       },
       {
         title: "Add search enpoints",
         ticketId: 7,
         indexColumn: 3,
-
       },
       {
         title: "Add authentication endpoints",
         ticketId: 8,
         indexColumn: 4,
-
       },
     ],
   },
@@ -68,25 +61,35 @@ const initialBoard = [
 function Board() {
   const [columns, setColumns] = useState(initialBoard);
 
-  const handleDropTicket = (ticketId, toColumnId) => { //Get the ticket id dropped and its current column
-    let newColumns = columns.map((column) => ({  //Creation of a new array based on the inital column array to a projection of the new column 
-      ...column,
-      tickets: column.tickets.filter((ticket) => ticket.ticketId !== ticketId), //Upate the column without this ticket by filterting
-    }));
-
-    const ticket = columns
-      .flatMap((column) => column.tickets) //Allow us to get only an array with all tickets, to manage the selection of the ticket without taking into the column
-      .find((ticket) => ticket.ticketId === ticketId);
-
-    setColumns(
-      newColumns.map((column) => {
-        if (column.columnId === toColumnId) { //We compare the inital column array and the newColumns array to change the columns if needed
-          return { ...column, tickets: [...column.tickets, ticket] };
-        }
-        return column; //We return an array with the new positions 
-      })
-    );
+  const handleDropTicket = (ticketId, toColumnId, targetIndex) => {
+    let ticket;
+    const newColumns = columns.map((column) => {
+      return {
+        ...column,
+        tickets: column.tickets.filter((t) => {
+          if (t.ticketId === ticketId) {
+            ticket = t;
+            return false;
+          }
+          return true;
+        }),
+      };
+    });
+  
+    if (ticket) {
+      setColumns(
+        newColumns.map((column) => {
+          if (column.columnId === toColumnId) {
+            const newTickets = [...column.tickets];
+            newTickets.splice(targetIndex, 0, ticket);
+            return { ...column, tickets: newTickets.map((t, index) => ({ ...t, indexColumn: index })) };
+          }
+          return column;
+        })
+      );
+    }
   };
+  
 
   return (
     <div className="board-container">
@@ -111,64 +114,100 @@ function Board() {
       )}
     </div>
   );
-  
 }
 
 function Column({ column, onDropTicket }) {
-  const [, dropRef] = useDrop({ //Hook to allow to drop
-    accept: "TICKET", //The type of element accepted to drop 
-    drop: (item, monitor) => { //In case of a drop
-      if (monitor.isOver()) { //If the ticket is over the column
-        onDropTicket(item.id, column.columnId); //Launch the function handleDropTicket to redefine the column of the ticket 
-      }
+  const dropRef = useRef(null);
+
+  const [{isOver}, columnDropRef] = useDrop({
+    accept: "TICKET",
+    drop: (item, monitor) => {
+      const { ticketId, columnId } = item;
+      if (column.columnId === columnId) return;
+
+      onDropTicket(ticketId, column.columnId, hoverIndex);
     },
+    collect: (monitor) => ({
+      isOver: !!monitor.isOver(),
+    }),
   });
 
-  return (//dropRef link the column to the drop 
-    <div ref={dropRef} className="column-container">
+  columnDropRef(dropRef);
+
+  return (
+    <div ref={dropRef} className={`column-container ${isOver ? 'drag-over' : ''}`}>
       <div className="column-label">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="15"
-          height="15"
-          viewBox="0 0 15 15"
-        >
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15">
           <circle cx="7.5" cy="7.5" r="7.5" fill={column.color} />
         </svg>
-
-        <div className="column-title">{column.name}({column.tickets.length})</div>
+        <div className="column-title">
+          {column.name}({column.tickets.length})
+        </div>
       </div>
       <div className="tickets-container">
         {column.tickets.map((ticket, index) => (
-          <Ticket key={ticket.ticketId} ticket={ticket} />
+          <Ticket
+            key={ticket.ticketId}
+            ticket={ticket}
+            index={index}
+            onDropTicket={onDropTicket}
+            columnId={column.columnId}
+          />
         ))}
       </div>
     </div>
   );
 }
 
-function Ticket({ ticket, index, onMoveTicket, columnId }) {
-  const [{ isDragging }, dragRef, preview] = useDrag({
-    type: "TICKET", //Define the type of the element dragable (useful above on the drog side)
-    item: () => { //Return the data of the object that we can drag 
-      return { id: ticket.ticketId, indexColumn: ticket.indexColumn, columnId };
+
+
+function Ticket({ ticket, index, onDropTicket, columnId }) {
+  const [{ isDragging }, dragRef] = useDrag({
+    type: "TICKET",
+    item: () => {
+      return { ticketId: ticket.ticketId, columnId, index };
     },
     collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(), //Boolean to know if the element is currently draged or not, allow us to impact some css effects
+      isDragging: !!monitor.isDragging(),
     }),
   });
 
+  const dropRef = useRef(null);
+
+  const [, ticketDropRef] = useDrop({
+    accept: "TICKET",
+    hover: (item, monitor) => {
+      if (!dropRef.current) return;
+
+      if (item.ticketId === ticket.ticketId) return;
+
+      const hoverIndex = index;
+      const hoverBoundingRect = dropRef.current.getBoundingClientRect();
+      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 4;
+      const clientOffset = monitor.getClientOffset();
+      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+
+      if (item.index < hoverIndex && hoverClientY < hoverMiddleY) return;
+      if (item.index > hoverIndex && hoverClientY > hoverMiddleY) return;
+
+      onDropTicket(item.ticketId, columnId, hoverIndex);
+      item.index = hoverIndex;
+    },
+  });
+
+  ticketDropRef(dropRef);
+
   return (
-    <div
-      ref={dragRef}
-      className="ticket"
-      style={{ opacity: isDragging ? 0.5 : 1 }}
-    >
-      
-      <p className="ticket-title">#{ticket.ticketId} - {ticket.title}</p>
+    <div ref={(node) => dragRef(dropRef.current = node)} className={`ticket ${isDragging ? 'dragging' : ''}`} style={{ opacity: isDragging ? 0.5 : 1 }}>
+      <p className="ticket-title">
+        #{ticket.ticketId} - {ticket.title}
+      </p>
       <p className="ticket-subtasks">0 of 3 subtasks</p>
     </div>
   );
 }
+
+
+
 
 export default Board;

@@ -6,7 +6,7 @@ export const screenSizeSlice = createSlice({
     screenSize: window.innerWidth
   },
   reducers: {
-    setScreenSize: (state) => {
+    setScreenSize: (state, action) => {
       state.screenSize = action.payload;
     },
   }
