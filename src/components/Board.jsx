@@ -183,9 +183,19 @@ function Ticket({ ticket, index, onDropTicket, columnId }) {
 
       const hoverIndex = index;
       const hoverBoundingRect = dropRef.current.getBoundingClientRect();
-      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 4;
       const clientOffset = monitor.getClientOffset();
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      const isDraggingDownwards = item.index < index;
+      let hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      let hoverMiddleY = (hoverBoundingRect.top - hoverBoundingRect.top) / 1;
+
+
+      if (!isDraggingDownwards) {
+        console.log("dragging down")
+        hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 1;
+        hoverClientY = clientOffset.y - hoverBoundingRect.top;
+
+      }
+
 
       if (item.index < hoverIndex && hoverClientY < hoverMiddleY) return;
       if (item.index > hoverIndex && hoverClientY > hoverMiddleY) return;
