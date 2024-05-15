@@ -208,8 +208,8 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
               className="logo"
               src={
                 darkTheme
-                  ? "./public/logo-dark.svg"
-                  : "./public/logo.svg"
+                  ? "/logo-dark.svg"
+                  : "/logo.svg"
               }
               alt="logo"
               onClick={() => refresh()}
@@ -320,7 +320,7 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
           >
             <img
               className="sun-icon"
-              src="./public/sun.svg"
+              src="/sun.svg"
               alt="sun-icon"
             />
             <Switch
@@ -366,7 +366,7 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
               }}
               onClick={handleDarkTheme}
             />
-            <img className="moon-icon" src="./public/moon.svg" alt="" />
+            <img className="moon-icon" src="/moon.svg" alt="" />
           </div>
           <div onClick={handleDrawerClose} className="drawer-hide">
             <svg
@@ -429,8 +429,8 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
             className="logo"
             src={
               darkTheme
-                ? "./public/logo-dark.svg"
-                : "./public/logo-mobile.svg"
+                ? "/logo-dark.svg"
+                : "/logo-mobile.svg"
             }
             alt="logo"
             onClick={() => refresh()}
