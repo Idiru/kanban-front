@@ -429,8 +429,8 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
             className="logo"
             src={
               darkTheme
-                ? "../src/assets/logo-dark.svg"
-                : "../src/assets/logo-mobile.svg"
+                ? "./src/assets/logo-dark.svg"
+                : "./src/assets/logo-mobile.svg"
             }
             alt="logo"
             onClick={() => refresh()}
