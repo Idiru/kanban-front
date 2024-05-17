@@ -59,8 +59,9 @@ const initialBoard = [
 ];
 
 function Board() {
-  const [columns, setColumns] = useState(initialBoard);
+  const [columns, setColumns] = useState(initialBoard); //State to manage the columns of the table
 
+  // Function to manage the drag and drop from one column to another one
   const handleDropTicket = (ticketId, toColumnId, targetIndex) => {
     let ticket;
     const newColumns = columns.map((column) => {
@@ -75,21 +76,26 @@ function Board() {
         }),
       };
     });
-  
+
     if (ticket) {
       setColumns(
         newColumns.map((column) => {
           if (column.columnId === toColumnId) {
             const newTickets = [...column.tickets];
             newTickets.splice(targetIndex, 0, ticket);
-            return { ...column, tickets: newTickets.map((t, index) => ({ ...t, indexColumn: index })) };
+            return {
+              ...column,
+              tickets: newTickets.map((t, index) => ({
+                ...t,
+                indexColumn: index,
+              })),
+            };
           }
           return column;
         })
       );
     }
   };
-  
 
   return (
     <div className="board-container">
@@ -119,13 +125,12 @@ function Board() {
 function Column({ column, onDropTicket }) {
   const dropRef = useRef(null);
 
-  const [{isOver}, columnDropRef] = useDrop({
+  const [{ isOver }, columnDropRef] = useDrop({
     accept: "TICKET",
     drop: (item, monitor) => {
-      const { ticketId, columnId } = item;
-      if (column.columnId === columnId) return;
-
-      onDropTicket(ticketId, column.columnId, hoverIndex);
+      if (monitor.didDrop()) return; // Ignore si déjà géré par Ticket
+      const hoverIndex = column.tickets.length; // Placer à la fin si aucune cible spécifique n'est définie
+      onDropTicket(item.ticketId, column.columnId, hoverIndex);
     },
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
@@ -135,9 +140,17 @@ function Column({ column, onDropTicket }) {
   columnDropRef(dropRef);
 
   return (
-    <div ref={dropRef} className={`column-container ${isOver ? 'drag-over' : ''}`}>
+    <div
+      ref={dropRef}
+      className={`column-container ${isOver ? "drag-over" : ""}`}
+    >
       <div className="column-label">
-        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="15"
+          height="15"
+          viewBox="0 0 15 15"
+        >
           <circle cx="7.5" cy="7.5" r="7.5" fill={column.color} />
         </svg>
         <div className="column-title">
@@ -159,56 +172,67 @@ function Column({ column, onDropTicket }) {
   );
 }
 
-
-
 function Ticket({ ticket, index, onDropTicket, columnId }) {
   const [{ isDragging }, dragRef] = useDrag({
+    //isDragging allow us to know if we are currently dragging (useful to add some css effects) the element and the useDrag allows us to drag this element
     type: "TICKET",
     item: () => {
-      return { ticketId: ticket.ticketId, columnId, index };
+      //Function to send the data of the object dragged
+      return {
+        ticketId: ticket.ticketId,
+        oldColumnId: columnId, // Renommé pour clarifier
+        index,
+        newColumnId: columnId,
+      };
     },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
   });
 
-  const dropRef = useRef(null);
+  const dropRef = useRef(null); //Initialization for the drop, will allow you to ref a DOM element to manage the drag and drop
 
   const [, ticketDropRef] = useDrop({
     accept: "TICKET",
     hover: (item, monitor) => {
       if (!dropRef.current) return;
-
       if (item.ticketId === ticket.ticketId) return;
 
-      const hoverIndex = index;
       const hoverBoundingRect = dropRef.current.getBoundingClientRect();
       const clientOffset = monitor.getClientOffset();
       const isDraggingDownwards = item.index < index;
       let hoverClientY = clientOffset.y - hoverBoundingRect.top;
-      let hoverMiddleY = (hoverBoundingRect.top - hoverBoundingRect.top) / 1;
-
+      let hoverMiddleY = (hoverBoundingRect.top - hoverBoundingRect.top) / 0.5;
 
       if (!isDraggingDownwards) {
-        console.log("dragging down")
-        hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 1;
+        console.log("dragging down");
+        hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 0.5;
         hoverClientY = clientOffset.y - hoverBoundingRect.top;
-
       }
 
+      const dragIndex = item.index;
+      const hoverIndex = index;
 
-      if (item.index < hoverIndex && hoverClientY < hoverMiddleY) return;
-      if (item.index > hoverIndex && hoverClientY > hoverMiddleY) return;
+      if (
+        (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) ||
+        (dragIndex > hoverIndex && hoverClientY > hoverMiddleY)
+      ) {
+        return;
+      }
 
       onDropTicket(item.ticketId, columnId, hoverIndex);
-      item.index = hoverIndex;
+      item.index = hoverIndex; // Mise à jour de l'index dans l'élément glissé
     },
   });
 
   ticketDropRef(dropRef);
 
   return (
-    <div ref={(node) => dragRef(dropRef.current = node)} className={`ticket ${isDragging ? 'dragging' : ''}`} style={{ opacity: isDragging ? 0.5 : 1 }}>
+    <div
+      ref={(node) => dragRef((dropRef.current = node))}
+      className={`ticket ${isDragging ? "dragging" : ""}`}
+      style={{ opacity: isDragging ? 0.5 : 1 }}
+    >
       <p className="ticket-title">
         #{ticket.ticketId} - {ticket.title}
       </p>
@@ -216,8 +240,5 @@ function Ticket({ ticket, index, onDropTicket, columnId }) {
     </div>
   );
 }
-
-
-
 
 export default Board;
