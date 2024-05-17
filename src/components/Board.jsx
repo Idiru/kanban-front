@@ -131,18 +131,22 @@ function Column({ column, onDropTicket }) {
       if (monitor.didDrop()) return; // Ignore si déjà géré par Ticket
       const hoverIndex = column.tickets.length; // Placer à la fin si aucune cible spécifique n'est définie
       onDropTicket(item.ticketId, column.columnId, hoverIndex);
+
     },
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
     }),
   });
 
+
+ 
+
   columnDropRef(dropRef);
 
   return (
     <div
       ref={dropRef}
-      className={`column-container ${isOver ? "drag-over" : ""}`}
+      className={`column-container ${isOver ? "drag-over" : ""} ${column.tickets.length == 0 ? "is-empty" : ""}`}
     >
       <div className="column-label">
         <svg
