@@ -140,9 +140,10 @@ body {
   justify-content: center;
   gap: 10px;
   border-radius: 6px;
+  display: none;
 }
 
-.dark {
+/* .dark {
   background-color: #20212c !important;
   color: #828fa3 !important;
 }
@@ -151,7 +152,7 @@ body {
   width: 18.333px;
   height: 18.333px;
   flex-shrink: 0;
-}
+} */
 
 .moon-icon {
   margin-left: 6px;
@@ -327,4 +328,10 @@ body {
 .container-add-new-column p:hover {
   color: var(--Main-Purple, #635FC7);
   cursor: pointer;
+}
+
+@media (max-width: 375px) {
+  .container-add-new-column {
+    display: none;
+  }
 }

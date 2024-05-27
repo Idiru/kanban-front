@@ -21,7 +21,6 @@ import { openModal } from "../redux/modalSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { setScreenSize } from "../redux/screenSizeSlice";
 
-
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -88,7 +87,6 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const { boards } = useKanban();
-
 
   const isModalOpen = useSelector((state) => state.modal.open);
   const dispatch = useDispatch();
@@ -158,19 +156,17 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
           open={open}
           sx={{
             boxShadow: "none",
-            borderBottom: darkTheme
-              ? "1px solid var(--Borders-dark)"
-              : "1px solid var(--Borders-light)",
+            borderBottom: darkTheme ? "" : "1px solid var(--Borders-light)",
           }}
         >
           <Toolbar
             sx={{
-              backgroundColor: darkTheme ? "var(--Dark-Grey)" : "var(--White)",
+              backgroundColor: darkTheme ? "" : "var(--White)",
               color: "#000112",
             }}
           >
             <Typography
-              sx={{ color: darkTheme ? "var(--White)" : "var(--Black)" }}
+              sx={{ color: darkTheme ? "var(--White)" : "" }}
               variant="h6"
               noWrap
               component="div"
@@ -178,7 +174,7 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
               {boards[activeIndex].name}
             </Typography>
             <div className="toolbar-button">
-              <MainButton text={"+ Add new column"} />
+              {/* <MainButton text={"+ Add new task"} /> */}
             </div>
           </Toolbar>
         </AppBar>
@@ -189,12 +185,10 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
             "& .MuiDrawer-paper": {
               width: drawerWidth,
               boxSizing: "border-box",
-              borderRight: darkTheme
-                ? "1px solid var(--Borders-dark)"
-                : "1px solid var(--Borders-light)",
+              borderRight: darkTheme ? "" : "1px solid var(--Borders-light)",
             },
             ".css-12i7wg6-MuiPaper-root-MuiDrawer-paper": {
-              backgroundColor: darkTheme ? "var(--Dark-Grey)" : "var(--White)",
+              backgroundColor: darkTheme ? "" : "var(--White)",
             },
           }}
           variant="persistent"
@@ -206,11 +200,7 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
           >
             <img
               className="logo"
-              src={
-                darkTheme
-                  ? "/logo-dark.svg"
-                  : "/logo.svg"
-              }
+              src={darkTheme ? "/logo-dark.svg" : "/logo.svg"}
               alt="logo"
               onClick={() => refresh()}
             />
@@ -275,7 +265,7 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
               </ListItem>
             ))}
             <ListItem disablePadding onClick={() => dispatch(openModal())}>
-              <ListItemButton className="drawer-button">
+              {/* <ListItemButton className="drawer-button">
                 <svg
                   width="16"
                   height="16"
@@ -306,23 +296,17 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
                     color: "var(--Main-Purple, #635fc7)",
                   }}
                 />
-              </ListItemButton>
+              </ListItemButton> */}
             </ListItem>
           </List>
           <div
             className="dark-light-mode"
             style={{
-              backgroundColor: darkTheme
-                ? "var(--Very-Dark-Grey)"
-                : "var(--Light-Grey)",
+              backgroundColor: darkTheme ? "" : "var(--Light-Grey)",
               color: "#000112",
             }}
           >
-            <img
-              className="sun-icon"
-              src="/sun.svg"
-              alt="sun-icon"
-            />
+            <img className="sun-icon" src="/sun.svg" alt="sun-icon" />
             <Switch
               {...label}
               sx={{
@@ -388,7 +372,7 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
         </Drawer>
         <Main open={open}>
           <DrawerHeader />
-            <Board />
+          <Board />
         </Main>
         <div className="drawer-hide close" onClick={handleDrawerOpen}>
           <svg
@@ -413,31 +397,29 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
         position="fixed"
         sx={{
           boxShadow: "none",
-          borderBottom: darkTheme
-            ? "1px solid var(--Borders-dark)"
-            : "1px solid var(--Borders-light)",
+          borderBottom: darkTheme ? "" : "1px solid var(--Borders-light)",
           "@media(min-width: 780px)": { display: "none" },
+          backgroundColor: "#f4f7fd",
+          width: "100vw",
+          overflowX: "auto",
         }}
       >
         <Toolbar
           sx={{
-            backgroundColor: darkTheme ? "var(--Dark-Grey)" : "var(--White)",
+            backgroundColor: darkTheme ? "" : "var(--White)",
             color: "#000112",
+            "@media(max-width: 375px)": { display: "none" },
           }}
         >
           <img
             className="logo"
-            src={
-              darkTheme
-                ? "/logo-dark.svg"
-                : "/logo-mobile.svg"
-            }
+            src={darkTheme ? "/logo-dark.svg" : "/logo-mobile.svg"}
             alt="logo"
             onClick={() => refresh()}
           />
           <Typography
             sx={{
-              color: darkTheme ? "var(--White)" : "var(--Black)",
+              color: darkTheme ? "var(--White)" : "",
               padding: "0 8px 0 16px",
             }}
             variant="h6"
@@ -457,13 +439,14 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
             xmlns="http://www.w3.org/2000/svg"
             style={{
               cursor: "pointer",
-              transition: firstMount.current ? "none" : "transform 0.3s ease", // Applique la transition uniquement après le premier montage
+              transition: firstMount.current ? "none" : "transform 0.3s ease",
+              display: "none",
             }}
           >
             <path d="M1 1L5 5L9 1" stroke="#635FC7" strokeWidth="2" />
           </svg>
           <div className="toolbar-button mobile">
-            <MainButton text={"+"} />
+            {/* <MainButton text={"+"} /> */}
           </div>
         </Toolbar>
         <Board />
