@@ -46,7 +46,7 @@ export default function CustomizedDialogs() {
         aria-labelledby="customized-dialog-title"
         open={open}
         sx={{
-          ".css-1t1j96h-MuiPaper-root-MuiDialog-paper": {
+          ".MuiDialog-paper": {
             minWidth: "100px",
             maxWidth: "500px",
             width: "50%",
@@ -78,7 +78,7 @@ export default function CustomizedDialogs() {
         <DialogContent>
         </DialogContent>
         <DialogActions sx={{ justifyContent: "center" }}>
-          <MainButton state={boardName ? "" : "disable"} onClick={handleCreateAndClose} text="Create" />
+          <MainButton state={boardName ? false : true} onClick={handleCreateAndClose} text="Create"  />
         </DialogActions>
       </BootstrapDialog>
     </React.Fragment>

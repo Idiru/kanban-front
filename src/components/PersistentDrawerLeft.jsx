@@ -225,7 +225,7 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
                   width: activeIndex === index ? "90%" : "100%",
                   backgroundColor:
                     activeIndex === index
-                      ? "var(--Main-Purple, #635FC7)"
+                      ? "#635FC7"
                       : "none",
                   borderRadius:
                     activeIndex === index ? "0px 100px 100px 0px" : "0",
@@ -303,7 +303,7 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
                     fontSize: "15px",
                     fontWeight: "700",
                     paddingLeft: "12px",
-                    color: "var(--Main-Purple, #635fc7)",
+                    color: "#635FC7",
                   }}
                 />
               </ListItemButton>
@@ -327,7 +327,7 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
               {...label}
               sx={{
                 ".css-1yjjitx-MuiSwitch-track": {
-                  backgroundColor: "var(--Main-Purple)",
+                  backgroundColor: "#635FC7",
                   opacity: "1",
                   width: "40px",
                   height: "20px",
@@ -340,7 +340,7 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
                   },
                 ".css-byenzh-MuiButtonBase-root-MuiSwitch-switchBase.Mui-checked+.MuiSwitch-track":
                   {
-                    backgroundColor: "var(--Main-Purple)",
+                    backgroundColor: "#635FC7",
                     opacity: "1",
                   },
                 ".css-jsexje-MuiSwitch-thumb": {
