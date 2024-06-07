@@ -1,5 +1,9 @@
 import React, { useState, useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
+import { openModal } from "../redux/modalSlice";
+import { useSelector, useDispatch } from "react-redux";
+
+
 
 const initialBoard = [
   {
@@ -61,6 +65,8 @@ const initialBoard = [
 function Board() {
   const [columns, setColumns] = useState(initialBoard); //State to manage the columns of the table
 
+  const dispatch = useDispatch();
+
   // Function to manage the drag and drop from one column to another one
   const handleDropTicket = (ticketId, toColumnId, targetIndex) => {
     let ticket;
@@ -109,13 +115,13 @@ function Board() {
             />
           ))}
           <div className="container-add-new-column">
-            <p>+ New column</p>
+            <p onClick={() => dispatch(openModal("createColumn"))}>+ New column</p>
           </div>
         </>
       ) : (
         <div className="empty-board">
           <p>This board is empty. Create a new column to get started.</p>
-          <MainButton text="+ Add New Column" />
+          <MainButton onClick={() => dispatch(openModal("createColumn"))} text="+ Add New Column" />
         </div>
       )}
     </div>

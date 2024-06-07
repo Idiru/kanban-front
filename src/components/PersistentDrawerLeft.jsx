@@ -15,12 +15,13 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Board from "./Board";
 import MainButton from "./MainButton";
-import Modal from "./ModalCreateBoard";
+import ModalCreateBoard from "./ModalCreateBoard";
+import ModalCreateColumn from "./ModalCreateColumn";
+import ModalCreateTicket from "./ModalCreateTicket";
 import { useKanban } from "./KanbanContext";
 import { openModal } from "../redux/modalSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { setScreenSize } from "../redux/screenSizeSlice";
-
 
 const drawerWidth = 240;
 
@@ -89,8 +90,9 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
 
   const { boards } = useKanban();
 
-
   const isModalOpen = useSelector((state) => state.modal.open);
+  const modalType = useSelector((state) => state.modal.type);
+
   const dispatch = useDispatch();
 
   const handleListItemClick = (index) => {
@@ -177,8 +179,11 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
             >
               {boards[activeIndex].name}
             </Typography>
-            <div className="toolbar-button">
-              <MainButton text={"+ Add new column"} />
+            <div
+              className="toolbar-button"
+              onClick={() => dispatch(openModal("createTicket"))}
+            >
+              <MainButton text={"+ Add new ticket"} />
             </div>
           </Toolbar>
         </AppBar>
@@ -206,11 +211,7 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
           >
             <img
               className="logo"
-              src={
-                darkTheme
-                  ? "/logo-dark.svg"
-                  : "/logo.svg"
-              }
+              src={darkTheme ? "/logo-dark.svg" : "/logo.svg"}
               alt="logo"
               onClick={() => refresh()}
             />
@@ -223,10 +224,7 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
                 disablePadding
                 sx={{
                   width: activeIndex === index ? "90%" : "100%",
-                  backgroundColor:
-                    activeIndex === index
-                      ? "#635FC7"
-                      : "none",
+                  backgroundColor: activeIndex === index ? "#635FC7" : "none",
                   borderRadius:
                     activeIndex === index ? "0px 100px 100px 0px" : "0",
                 }}
@@ -274,7 +272,7 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
                 </ListItemButton>
               </ListItem>
             ))}
-            <ListItem disablePadding onClick={() => dispatch(openModal())}>
+            <ListItem disablePadding onClick={() => dispatch(openModal("createBoard"))}>
               <ListItemButton className="drawer-button">
                 <svg
                   width="16"
@@ -297,7 +295,6 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
                   primary="+ Create a new board"
                   className="list-item"
                   sx={{
-                    color: "var(--Medium-Grey, #828fa3)",
                     fontFeatureSettings: `"clig" off, "liga" off`,
                     fontFamily: "Plus Jakarta Sans",
                     fontSize: "15px",
@@ -318,11 +315,7 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
               color: "#000112",
             }}
           >
-            <img
-              className="sun-icon"
-              src="/sun.svg"
-              alt="sun-icon"
-            />
+            <img className="sun-icon" src="/sun.svg" alt="sun-icon" />
             <Switch
               {...label}
               sx={{
@@ -388,7 +381,7 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
         </Drawer>
         <Main open={open}>
           <DrawerHeader />
-            <Board />
+          <Board />
         </Main>
         <div className="drawer-hide close" onClick={handleDrawerOpen}>
           <svg
@@ -406,7 +399,21 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
             />
           </svg>
         </div>
-        <Modal open={isModalOpen} modalTitle="test" modalText="Test text" />
+        {isModalOpen && modalType === "createBoard" && (
+          <ModalCreateBoard
+            open={isModalOpen}
+          />
+        )}
+        {isModalOpen && modalType === "createColumn" && (
+          <ModalCreateColumn
+            open={isModalOpen}
+          />
+        )}
+        {isModalOpen && modalType === "createTicket" && (
+          <ModalCreateTicket
+            open={isModalOpen}
+          />
+        )}
       </Box>
 
       <AppBar
@@ -427,11 +434,7 @@ export default function PersistentDrawerLeft({ handleDarkTheme, darkTheme }) {
         >
           <img
             className="logo"
-            src={
-              darkTheme
-                ? "/logo-dark.svg"
-                : "/logo-mobile.svg"
-            }
+            src={darkTheme ? "/logo-dark.svg" : "/logo-mobile.svg"}
             alt="logo"
             onClick={() => refresh()}
           />
